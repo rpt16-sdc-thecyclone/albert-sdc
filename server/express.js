@@ -1,13 +1,22 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { save, retrieve, findOne } = require('../db/mongo');
+const {
+  save,
+  retrieve,
+  findOne,
+  updateOne,
+  deleteOne,
+  insertOne
+} = require('../db/mongo');
 
 const dist = path.resolve('client', 'dist');
 
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.use(express.static(dist));
 
@@ -38,6 +47,39 @@ app.get('/suggested', (req, res) => {
     res.status(400).send('Try Again');
   }
 });
+
+//Update
+app.put('/update/:productTitle', (req, res) => {
+  updateOne(req.params.productTitle, req.body)
+    .then(result => {
+      res.send(result);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+})
+
+//Delete
+app.delete('/delete/:productTitle', (req, res) => {
+  deleteOne(req.params.productTitle)
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err);
+    })
+})
+
+//Create
+app.post('/create', (req, res) => {
+  insertOne(req.body)
+    .then((result) => {
+        res.send(result);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+})
 
 
 app.listen(3001 || process.env.PORT, () => {
