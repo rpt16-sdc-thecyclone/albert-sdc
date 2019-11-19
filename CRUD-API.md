@@ -69,7 +69,7 @@ Response:
 ```
 {
     "_id": "5dd3805dc74c773a38b40e4c",
-    "image": "https://  fec-albert.s3.us-west-1.amazonaws.com/      julian-o-hayon-oW4tZeidfkA-unsplash.jpg",
+    "image": "https://  fec-albert.s3.us-west-1.amazonaws.com/julian-o-hayon-oW4tZeidfkA-unsplash.jpg",
     "productTitle": "RandomTitle",
     "shippingCost": 10,
     "price": 10,
