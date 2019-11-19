@@ -74,7 +74,8 @@ app.delete('/delete/:productTitle', (req, res) => {
 app.post('/create', (req, res) => {
   insertOne(req.body)
     .then((result) => {
-        res.send(result);
+      // console.log('result', result);
+      res.send(result);
     })
     .catch(error => {
       console.log(error);

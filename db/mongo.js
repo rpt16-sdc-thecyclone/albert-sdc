@@ -2,14 +2,18 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose');
 const fakerAPI = require('./faker');
-mongoose.connect('mongodb://localhost/fecRepo', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/fecRepo', {
+  useNewUrlParser: true
+});
 // Need below for docker.
 // mongoose.connect('mongodb://ec2-54-215-211-187.us-west-1.compute.amazonaws.com:27017/', { useNewUrlParser: true })
 //   .catch((err) => console.error(err));
 
 
 const db = mongoose.connection;
-db.once('open', () => { console.log('open!'); });
+db.once('open', () => {
+  console.log('open!');
+});
 
 
 const repoSchema = mongoose.Schema({
@@ -41,9 +45,13 @@ const save = (cb) => {
 
 const findOne = () => {
   return new Promise((resolve) => {
-    repo.findOne({ productTitle: 'Chewbacca w/ Sound Star Wars 15" Plush Toy' })
+    repo.findOne({
+        productTitle: 'Chewbacca w/ Sound Star Wars 15" Plush Toy'
+      })
       .then((r) => {
-        repo.findOne({ productTitle: 'Chewbacca Star Wars Talking Stuffed Animal Plush Wookie Doll 8" Inches' })
+        repo.findOne({
+            productTitle: 'Chewbacca Star Wars Talking Stuffed Animal Plush Wookie Doll 8" Inches'
+          })
           .then((f) => resolve([r, f]));
       });
   });
@@ -64,15 +72,12 @@ const retrieve = () => {
 
 const insertOne = (obj) => {
   return new Promise((resolve, reject) => {
-    repo.create(
-      {
-        image: obj.image,
-        productTitle: obj.productTitle,
-        shippingCost: obj.shippingCost,
-        price: obj.price,
-      }
-    )
-    .then((err, result) => {
+    repo.create({
+      image: obj.image,
+      productTitle: obj.productTitle,
+      shippingCost: obj.shippingCost,
+      price: obj.price,
+    }, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -83,17 +88,17 @@ const insertOne = (obj) => {
 }
 const updateOne = (productTitle, obj) => {
   return new Promise((resolve, reject) => {
-    repo.updateOne(
-      {productTitle:productTitle},
-      {
-        $set: {"productTitle": obj.productTitle}
+    repo.updateOne({
+      productTitle: productTitle
+    }, {
+      $set: {
+        "productTitle": obj.productTitle
       }
-    )
-    .then((err, result) => {
+    }, (err, result) => {
       if (err) {
         reject(err);
       } else {
-        resolve(`Document updated successfully.`)
+        resolve(result);
       }
     })
   })
@@ -101,10 +106,9 @@ const updateOne = (productTitle, obj) => {
 
 const deleteOne = (productTitle) => {
   return new Promise((resolve, reject) => {
-    repo.deleteOne(
-      {productTitle: productTitle}
-    )
-    .then((err, result) => {
+    repo.deleteOne({
+      productTitle: productTitle
+    }, (err, result) => {
       if (err) {
         reject(err);
       } else {
