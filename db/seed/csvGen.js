@@ -16,18 +16,20 @@ let dataGen = (i) => {
 }
 
 let seed = () => {
+    console.time('seed', 'seed start');
     let csvwriter = fs.createWriteStream('output.csv');
     //faker data
 
     // appendfile after reaching certain length of data, then empty
     // appendfile will create if file doesn't exist
     let fakeData = 'id, image, productTitle, shippingCost, price\n';
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 10000000; i++) {
         fakeData += dataGen(i);
         if (i % 10 === 0) {
             csvwriter.write(fakeData);
             fakeData = '';
         }
     }
+    console.timeEnd('seed', 'seed end');
 };
 seed();
